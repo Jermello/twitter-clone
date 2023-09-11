@@ -4,7 +4,6 @@ import { ProfileImage } from "./ProfileImage";
 import {
   type FormEvent,
   useCallback,
-  useEffect,
   useLayoutEffect,
   useRef,
   useState,
@@ -35,7 +34,7 @@ const Form = () => {
   const trpcUtils = api.useContext();
 
   useLayoutEffect(() => {
-    updateTextAreaSize(textAreaRef.current);
+    if (textAreaRef.current) updateTextAreaSize(textAreaRef.current);
   }, [inputValue]);
 
   const createTweet = api.tweet.create.useMutation({
@@ -76,7 +75,11 @@ const Form = () => {
     createTweet.mutate({ content: inputValue });
   };
 
-  if (session.status !== "authenticated") return null;
+  if (
+    session.status !== "authenticated" ||
+    session.data?.user?.image === undefined
+  )
+    return null;
   return (
     <form
       onSubmit={handleSubmit}
