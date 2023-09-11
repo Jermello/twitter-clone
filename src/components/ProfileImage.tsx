@@ -1,9 +1,8 @@
-import { type StaticImport } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
 import { VscAccount } from "react-icons/vsc";
 
 type ProfileImageProps = {
-  src: string | StaticImport;
+  src: string | null;
   className?: string;
 };
 
